@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Не смотрите наверх — После фильма</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+:root {
+  --void: #03050D;
+  --deep: #080C1A;
+  --card: #0D1225;
+  --border: #1C2540;
+  --border-glow: #2A3B7A;
+  --star: #E8EBF5;
+  --dim: #6B7499;
+  --gold: #F5C842;
+  --comet: #88AAFF;
+  --fire: #FF6B35;
+  --green: #2ECC71;
+  --red: #E74C3C;
+  --glow: rgba(136,170,255,0.15);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--void);
+  color: var(--star);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+/* STARFIELD */
+#starfield {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.star-dot {
+  position: absolute;
+  border-radius: 50%;
+  background: white;
+  animation: twinkle var(--dur, 3s) ease-in-out infinite var(--delay, 0s);
+}
+@keyframes twinkle {
+  0%, 100% { opacity: var(--min, 0.2); }
+  50% { opacity: var(--max, 1); }
+}
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(3,5,13,0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 32px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.nav-logo {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  color: var(--comet);
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.nav-links {
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.nav-links::-webkit-scrollbar { display: none; }
+.nav-link {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--dim);
+  letter-spacing: 0.08em;
+  padding: 5px 14px;
+  text-decoration: none;
+  text-transform: uppercase;
+  white-space: nowrap;
+  border-right: 1px solid var(--border);
+  transition: color 0.15s;
+}
+.nav-link:hover { color: var(--comet); }
+.nav-link:last-child { border-right: none; }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 100px 24px 60px;
+  position: relative;
+  z-index: 1;
+}
+.hero-orbit {
+  width: 280px; height: 280px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  position: relative;
+  margin: 0 auto 48px;
+  animation: rotate-orbit 20s linear infinite;
+}
+.hero-orbit::before {
+  content: '☄';
+  position: absolute;
+  top: -14px; left: 50%;
+  transform: translateX(-50%);
+  font-size: 24px;
+  filter: drop-shadow(0 0 12px var(--comet));
+}
+.hero-orbit-inner {
+  width: 160px; height: 160px;
+  border-radius: 50%;
+  border: 1px solid var(--border-glow);
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hero-planet {
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #2A5A8A, #0D1F3C, #050D1F);
+  box-shadow: 0 0 40px rgba(136,170,255,0.3), inset -8px -8px 20px rgba(0,0,0,0.5);
+}
+@keyframes rotate-orbit {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.hero-eyebrow {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--comet);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.hero h1 {
+  font-size: clamp(36px, 7vw, 84px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  margin-bottom: 16px;
+}
+.hero h1 .accent { color: var(--fire); }
+.hero-sub {
+  font-size: 16px;
+  color: var(--dim);
+  max-width: 520px;
+  margin: 0 auto 40px;
+  line-height: 1.7;
+}
+.hero-fact {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--gold);
+  padding: 8px 20px;
+  border: 1px solid rgba(245,200,66,0.3);
+  background: rgba(245,200,66,0.05);
+  letter-spacing: 0.05em;
+}
+
+/* SECTIONS */
+.section {
+  position: relative;
+  z-index: 1;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 80px 24px;
+}
+.section-header {
+  margin-bottom: 48px;
+}
+.section-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--comet);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.section-tag::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--border), transparent);
+}
+.section-title {
+  font-size: clamp(24px, 4vw, 40px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+.section-title .dim { color: var(--dim); }
+
+/* CARDS */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 28px;
+  transition: border-color 0.2s;
+}
+.card:hover { border-color: var(--border-glow); }
+.card-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--comet);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.card h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  line-height: 1.3;
+}
+.card p, .card li {
+  font-size: 13.5px;
+  color: #A8B0CC;
+  line-height: 1.7;
+  margin-bottom: 8px;
+}
+.card ul { padding-left: 18px; }
+.card li { margin-bottom: 6px; }
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-bottom: 2px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; }
+
+/* BIG STAT */
+.big-stat {
+  font-family: 'Space Mono', monospace;
+  font-size: clamp(36px, 6vw, 64px);
+  font-weight: 700;
+  color: var(--fire);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.big-stat.blue { color: var(--comet); }
+.big-stat.gold { color: var(--gold); }
+.stat-label {
+  font-size: 11px;
+  color: var(--dim);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-family: 'Space Mono', monospace;
+}
+
+/* DIVIDER */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  position: relative;
+  z-index: 1;
+}
+
+/* CHICXULUB DIAGRAM */
+.impact-diagram {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 32px;
+  margin: 24px 0;
+  position: relative;
+  overflow: hidden;
+}
+.impact-diagram::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 40% at 50% 100%, rgba(255,107,53,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.impact-diagram h3 {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--comet);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+.impact-viz {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+.comet-path {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  font-size: 12px;
+  color: var(--dim);
+  font-family: 'Space Mono', monospace;
+}
+.comet-path .arrow {
+  font-size: 28px;
+  color: var(--fire);
+  transform: rotate(45deg);
+  display: inline-block;
+  text-shadow: 0 0 20px var(--fire);
+  animation: pulse-fire 2s ease-in-out infinite;
+}
+@keyframes pulse-fire {
+  0%, 100% { text-shadow: 0 0 20px var(--fire); }
+  50% { text-shadow: 0 0 40px var(--fire), 0 0 80px rgba(255,107,53,0.3); }
+}
+.earth-cross {
+  width: 100%;
+  height: 120px;
+  position: relative;
+  background: linear-gradient(180deg, transparent 0%, rgba(30,80,140,0.3) 50%, rgba(30,80,140,0.6) 100%);
+  border-top: 2px solid rgba(136,170,255,0.4);
+  border-radius: 0 0 60px 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.crater-mark {
+  position: absolute;
+  bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 200px; height: 60px;
+  border-radius: 50% 50% 0 0;
+  border: 2px solid var(--fire);
+  border-bottom: none;
+  opacity: 0.6;
+}
+.crater-mark-2 {
+  width: 300px; height: 90px;
+  opacity: 0.3;
+}
+.impact-label {
+  position: absolute;
+  bottom: 10px;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--fire);
+  letter-spacing: 0.1em;
+}
+.impact-stats {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 2px;
+  margin-top: 24px;
+}
+.imp-stat {
+  background: rgba(255,107,53,0.05);
+  border: 1px solid rgba(255,107,53,0.15);
+  padding: 14px;
+  text-align: center;
+}
+.imp-num {
+  font-family: 'Space Mono', monospace;
+  font-size: 16px;
+  color: var(--fire);
+  margin-bottom: 4px;
+}
+.imp-lbl { font-size: 10px; color: var(--dim); line-height: 1.4; }
+
+/* TRAJECTORY */
+.trajectory {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 28px;
+  margin: 2px 0;
+}
+.traj-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 24px;
+  align-items: center;
+}
+.traj-angle {
+  text-align: center;
+  padding: 20px;
+  border: 1px solid var(--border-glow);
+  background: rgba(136,170,255,0.04);
+}
+.traj-deg {
+  font-family: 'Space Mono', monospace;
+  font-size: 48px;
+  color: var(--comet);
+  line-height: 1;
+}
+.traj-deg span { font-size: 24px; }
+
+/* TIMELINE */
+.timeline { position: relative; }
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 20px; top: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(180deg, var(--comet), var(--fire), transparent);
+}
+.tl-item {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.tl-dot {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--comet);
+  border: 2px solid var(--void);
+  margin-top: 4px;
+  box-shadow: 0 0 8px var(--comet);
+  flex-shrink: 0;
+  margin-left: 14px;
+}
+.tl-dot.fire { background: var(--fire); box-shadow: 0 0 8px var(--fire); }
+.tl-dot.gold { background: var(--gold); box-shadow: 0 0 8px var(--gold); }
+.tl-content { padding-bottom: 4px; }
+.tl-date {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--gold);
+  letter-spacing: 0.1em;
+  margin-bottom: 4px;
+}
+.tl-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+.tl-text { font-size: 13px; color: #8A92B0; line-height: 1.65; }
+.tl-tag {
+  display: inline-block;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  padding: 3px 10px;
+  margin-top: 8px;
+  border: 1px solid var(--border-glow);
+  color: var(--comet);
+  letter-spacing: 0.05em;
+}
+.tl-tag.danger { border-color: rgba(231,76,60,0.4); color: var(--fire); }
+.tl-tag.ok { border-color: rgba(46,204,113,0.4); color: var(--green); }
+
+/* SKY DARKNESS */
+.bortle-chart {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 28px;
+  margin: 24px 0;
+}
+.bortle-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.bortle-num {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--dim);
+  width: 20px;
+  flex-shrink: 0;
+}
+.bortle-bar-wrap {
+  flex: 1;
+  height: 24px;
+  position: relative;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.bortle-bar {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.8);
+  font-family: 'Space Mono', monospace;
+}
+.bortle-label {
+  width: 140px;
+  font-size: 11px;
+  color: var(--dim);
+  flex-shrink: 0;
+}
+
+/* QUOTE */
+.pullquote {
+  padding: 40px 32px;
+  border-left: 3px solid var(--comet);
+  background: rgba(136,170,255,0.04);
+  margin: 32px 0;
+  position: relative;
+  z-index: 1;
+}
+.pullquote blockquote {
+  font-size: clamp(18px, 2.5vw, 24px);
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--star);
+  font-style: italic;
+}
+.pullquote cite {
+  display: block;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--dim);
+  margin-top: 12px;
+  letter-spacing: 0.05em;
+  font-style: normal;
+}
+
+/* GAME SECTION */
+#game-section {
+  background: var(--deep);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 60px 24px;
+  position: relative;
+  z-index: 1;
+}
+.game-wrap {
+  max-width: 700px;
+  margin: 0 auto;
+}
+.game-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+.game-header h2 {
+  font-size: clamp(24px, 4vw, 36px);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.game-meta {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+.game-meta-item {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--dim);
+  letter-spacing: 0.05em;
+}
+.game-meta-item span { color: var(--gold); }
+#game-canvas {
+  display: block;
+  margin: 0 auto;
+  border: 1px solid var(--border);
+  background: var(--void);
+  cursor: default;
+}
+.game-controls {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+.game-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 10px 24px;
+  background: transparent;
+  border: 1px solid var(--comet);
+  color: var(--comet);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.game-btn:hover { background: rgba(136,170,255,0.1); }
+.game-btn.primary { background: var(--comet); color: var(--void); }
+.game-btn.primary:hover { opacity: 0.9; }
+#level-info {
+  text-align: center;
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  color: var(--dim);
+  margin-top: 12px;
+  min-height: 20px;
+  letter-spacing: 0.05em;
+}
+
+footer {
+  position: relative; z-index: 1;
+  text-align: center;
+  padding: 40px 24px;
+  border-top: 1px solid var(--border);
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--dim);
+  letter-spacing: 0.05em;
+}
+
+@media (max-width: 680px) {
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  .impact-stats { grid-template-columns: repeat(2,1fr); }
+  .traj-grid { grid-template-columns: 1fr; }
+  .bortle-label { width: 90px; font-size: 10px; }
+  nav { padding: 10px 16px; }
+  #game-canvas { max-width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<!-- STARFIELD -->
+<div id="starfield"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">☄ ПОСЛЕ ФИЛЬМА</div>
+  <div class="nav-links">
+    <a class="nav-link" href="#chicxulub">Чиксулуб</a>
+    <a class="nav-link" href="#real-impacts">Реальные падения</a>
+    <a class="nav-link" href="#dark-sky">Тёмное небо</a>
+    <a class="nav-link" href="#game-section">Игра</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-orbit">
+    <div class="hero-orbit-inner">
+      <div class="hero-planet"></div>
+    </div>
+  </div>
+  <p class="hero-eyebrow">День 2 · Не смотрите наверх · После просмотра</p>
+  <h1>Реальность <span class="accent">страшнее</span><br>фильма</h1>
+  <p class="hero-sub">Всё что вы только что посмотрели — основано на настоящей науке, реальных событиях и настоящем человеческом отрицании. Давайте разберёмся что из этого правда.</p>
+  <div class="hero-fact">⚡ 66 МИЛЛИОНОВ ЛЕТ НАЗАД ЭТО УЖЕ СЛУЧИЛОСЬ ОДИН РАЗ</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CHICXULUB -->
+<section class="section" id="chicxulub">
+  <div class="section-header">
+    <div class="section-tag">Раздел 01 · Чиксулуб</div>
+    <h2 class="section-title">Астероид который <span class="dim">перезапустил жизнь на Земле</span></h2>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:2px;">
+    <div class="card">
+      <div class="card-label">Что это</div>
+      <h3>Кратер Чиксулуб</h3>
+      <p>Кратер диаметром около 180 км, скрытый под водами Мексиканского залива и полуостровом Юкатан. Его обнаружили не геологи, а нефтяники компании Pemex в 1970-х — при бурении скважин. Учёные подтвердили его происхождение лишь в 1991 году.</p>
+      <p>Название происходит от посёлка Чиксулуб в Мексике. На языке майя — «хвост дьявола».</p>
+    </div>
+    <div class="card">
+      <div class="card-label">Параметры удара</div>
+      <h3>Цифры которые трудно осознать</h3>
+      <div class="impact-stats" style="grid-template-columns:1fr 1fr;gap:2px;margin-top:0;">
+        <div class="imp-stat"><div class="imp-num">12 км</div><div class="imp-lbl">Диаметр астероида</div></div>
+        <div class="imp-stat"><div class="imp-num">20 км/с</div><div class="imp-lbl">Скорость удара</div></div>
+        <div class="imp-stat"><div class="imp-num">10⁸ мт</div><div class="imp-lbl">Мощность взрыва</div></div>
+        <div class="imp-stat"><div class="imp-num">66 млн</div><div class="imp-lbl">Лет назад</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="impact-diagram">
+    <h3>ТРАЕКТОРИЯ И БАЛЛИСТИКА УДАРА</h3>
+    <div class="traj-grid">
+      <div class="traj-angle">
+        <div class="traj-deg">45<span>°</span></div>
+        <div class="stat-label" style="font-size:10px;margin-top:8px;">угол вхождения<br>в атмосферу</div>
+        <p style="font-size:12px;color:var(--dim);margin-top:12px;line-height:1.5;">Именно этот угол оказался максимально разрушительным — обеспечил наибольшее выделение серы и сажи в стратосферу</p>
+      </div>
+      <div>
+        <p style="font-size:13.5px;color:#A8B0CC;line-height:1.7;margin-bottom:12px;"><strong style="color:var(--star);">Направление:</strong> астероид летел с северо-востока на юго-восток, вошёл в атмосферу над тем что сейчас является Мексиканским заливом.</p>
+        <p style="font-size:13.5px;color:#A8B0CC;line-height:1.7;margin-bottom:12px;"><strong style="color:var(--star);">Критическое совпадение:</strong> место удара было крайне неудачным — под поверхностью залегали огромные залежи эвапоритов (сульфатных пород). При ударе в атмосферу выброшено около 325 гигатонн серы — в 5000 раз больше чем при самом крупном вулкане XX века.</p>
+        <p style="font-size:13.5px;color:#A8B0CC;line-height:1.7;"><strong style="color:var(--star);">Моделирование 2020 года</strong> (Университет Остина) показало: удари астероид на 30 секунд раньше или позже — он бы попал в открытый океан. Сера не попала бы в стратосферу. Вымирание было бы значительно меньшим. Динозавры, возможно, выжили бы.</p>
+      </div>
+    </div>
+    <div class="impact-stats">
+      <div class="imp-stat"><div class="imp-num">180 км</div><div class="imp-lbl">Диаметр кратера</div></div>
+      <div class="imp-stat"><div class="imp-num">325 Гт</div><div class="imp-lbl">Серы в атмосферу</div></div>
+      <div class="imp-stat"><div class="imp-num">30 сек</div><div class="imp-lbl">Решили судьбу жизни</div></div>
+      <div class="imp-stat"><div class="imp-num">75%</div><div class="imp-lbl">Видов вымерло</div></div>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:2px;">
+    <div class="card">
+      <div class="card-label">Состав астероида</div>
+      <h3>Углистый хондрит (CI/CM)</h3>
+      <p>Чиксулубский астероид относился к классу углистых хондритов — одному из старейших типов метеоритов, сохранившихся с формирования Солнечной системы (4,56 млрд лет).</p>
+      <p><strong style="color:var(--star);">Состав:</strong></p>
+      <ul>
+        <li>Силикаты (оливин, пироксен) — ~60%</li>
+        <li>Органические соединения — ~5%</li>
+        <li>Металлы (железо, никель) — ~10%</li>
+        <li>Вода в связанном виде — ~10%</li>
+        <li>Иридий и другие платиноиды — следы</li>
+      </ul>
+      <p style="margin-top:10px;">Именно аномально высокое содержание иридия в геологическом слое 66 млн лет (слой K-Pg) стало первым доказательством удара — его обнаружил Луис Альварес в 1980 году.</p>
+    </div>
+    <div class="card">
+      <div class="card-label">Панспермия</div>
+      <h3>Жизнь прилетела из космоса?</h3>
+      <p>Углистые хондриты содержат аминокислоты, нуклеиновые основания и другие органические молекулы — строительные блоки жизни. Это основа теории панспермии.</p>
+      <p><strong style="color:var(--star);">Что нашли в метеоритах:</strong></p>
+      <ul>
+        <li>Более 80 аминокислот в метеорите Мёрчисон (1969)</li>
+        <li>Аденин и гуанин — компоненты ДНК и РНК</li>
+        <li>Рибоза — сахар необходимый для РНК</li>
+        <li>Фосфор в органических молекулах</li>
+      </ul>
+      <p style="margin-top:10px;">Парадокс Чиксулуба: тот же тип астероидов который уничтожил 75% жизни — вероятно, и доставил исходный «материал» для возникновения жизни 4 млрд лет назад.</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:2px;">
+    <div class="card-label">Последствия: ядерная зима длиной 10 лет</div>
+    <h3>Что произошло после удара</h3>
+    <div class="grid-2" style="gap:24px;margin-top:0;">
+      <div>
+        <p><strong style="color:var(--fire);">Первые минуты:</strong> ударная волна уничтожила всё в радиусе 1000 км. Выброс раскалённых обломков вызвал глобальные пожары — горела атмосфера.</p>
+        <p><strong style="color:var(--fire);">Первые часы:</strong> мегацунами высотой до 300 м прокатилось по Мексиканскому заливу, Карибскому бассейну и Атлантике.</p>
+        <p><strong style="color:var(--fire);">Первые дни:</strong> сажа и пыль в стратосфере блокировали солнечный свет. Температура упала на 15–20°C.</p>
+      </div>
+      <div>
+        <p><strong style="color:var(--gold);">Первые годы:</strong> «ядерная зима» длилась от 2 до 10 лет. Фотосинтез практически прекратился. Коллапс пищевых цепочек.</p>
+        <p><strong style="color:var(--gold);">Через 100 лет:</strong> после оседания пыли — парниковый эффект от CO₂. Потепление на 5°C на тысячелетия.</p>
+        <p><strong style="color:var(--green);">Через 10 млн лет:</strong> млекопитающие занимают освободившиеся ниши. Начинается путь к появлению приматов и человека.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- REAL IMPACTS -->
+<section class="section" id="real-impacts">
+  <div class="section-header">
+    <div class="section-tag">Раздел 02 · Реальные события</div>
+    <h2 class="section-title">Как человечество <span class="dim">реагировало на угрозы</span></h2>
+  </div>
+
+  <div class="pullquote">
+    <blockquote>«Если бы астероид Апофис упал в Атлантику — его заметили бы за 9 лет до удара. За 9 лет ничего нельзя сделать? Можно. Но на момент открытия у NASA был бюджет на планетарную защиту около $4 млн в год.»</blockquote>
+    <cite>— Нил Деграсс Тайсон, астрофизик</cite>
+  </div>
+
+  <div class="timeline" style="margin-top:32px;">
+
+    <div class="tl-item">
+      <div class="tl-dot fire"></div>
+      <div class="tl-content">
+        <div class="tl-date">30 ИЮНЯ 1908</div>
+        <div class="tl-title">Тунгусский взрыв — Россия</div>
+        <div class="tl-text">В 7:17 утра над тайгой в Сибири взорвалось тело диаметром около 50–80 м. Мощность — 10–15 мегатонн (1000 атомных бомб Хиросимы). Повалено 2000 кв. км леса — около 80 миллионов деревьев. Взрыв зафиксирован сейсмографами в Европе. Очевидцы в 400 км слышали гром и видели огненный столб. Место осталось практически недоступным — экспедиция добралась туда только в 1927 году.</div>
+        <div class="tl-text" style="margin-top:8px;"><strong style="color:var(--star);">Реакция:</strong> Российская империя не организовала официального расследования. Местные эвенки считали произошедшее гневом духов. Учёный Леонид Кулик добился финансирования экспедиции лишь через 19 лет.</div>
+        <span class="tl-tag danger">ЕСЛИ БЫ НАД МОСКВОЙ — 500 000 ПОГИБШИХ</span>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot gold"></div>
+      <div class="tl-content">
+        <div class="tl-date">1998</div>
+        <div class="tl-title">Конгресс США требует найти все астероиды</div>
+        <div class="tl-text">После фильмов «Армагеддон» и «Столкновение с бездной» (1998) Конгресс США обязал NASA выявить 90% астероидов крупнее 1 км к 2008 году. Программа называлась «Spaceguard». Бюджет: $4 млн в год — меньше чем стоит средний голливудский сиквел.</div>
+        <div class="tl-text" style="margin-top:8px;"><strong style="color:var(--star);">Итог:</strong> программа выполнена успешно — на 93%. Обнаружено более 900 объектов крупнее 1 км. Хорошая новость: в ближайшие 100 лет ни один из них не угрожает Земле.</div>
+        <span class="tl-tag ok">ХЭППИ ЭНД (ПОКА)</span>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot fire"></div>
+      <div class="tl-content">
+        <div class="tl-date">2004 — 2029</div>
+        <div class="tl-title">Апофис: астероид который нас почти напугал</div>
+        <div class="tl-text">В декабре 2004 года астрономы Роберт МакМиллан и Дэвид Торен обнаружили астероид диаметром 370 м. Первые расчёты давали 2,7% вероятности столкновения с Землёй в 2029 году — наивысший за всю историю наблюдений показатель для реального объекта.</div>
+        <div class="tl-text" style="margin-top:8px;">Мировые СМИ подняли панику. NASA получило шквал звонков. Через несколько дней уточнённые расчёты показали: в 2029 году Апофис пройдёт на расстоянии 31 000 км от Земли — ближе чем геостационарные спутники, но мимо. В 2068 году — вероятность удара 1 к 380 000.</div>
+        <div class="tl-text" style="margin-top:8px;"><strong style="color:var(--star);">Чьи были замыслы:</strong> Россия предложила отправить миссию для установки маяка на Апофис — для точного слежения. США отклонили инициативу. Ряд частных компаний предложил добыть металлы с астероида (он содержит железо и никель). Конкретных миссий не состоялось.</div>
+        <span class="tl-tag">13 АПРЕЛЯ 2029 АПОФИС ПРОЙДЁТ В 31 000 КМ</span>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot fire"></div>
+      <div class="tl-content">
+        <div class="tl-date">15 ФЕВРАЛЯ 2013</div>
+        <div class="tl-title">Челябинск — первый задокументированный удар в XXI веке</div>
+        <div class="tl-text">В 9:20 по местному времени над Уралом вошёл в атмосферу метеорит диаметром около 18–20 м, масса ~12 000 тонн. Взрыв на высоте 30 км — мощность около 470 килотонн (30 Хиросим). Ударная волна выбила окна в тысячах зданий. Пострадало 1 491 человек, в основном от стекла. Прямых жертв не было.</div>
+        <div class="tl-text" style="margin-top:8px;"><strong style="color:var(--star);">Реакция властей:</strong> первые часы — молчание. МЧС России поначалу отрицало что это метеорит. Некоторые чиновники говорили о «испытании нового оружия». Путин сравнил происходящее с «испытанием для нас». Ни одна система предупреждения заблаговременно не зафиксировала объект — он пришёл со стороны Солнца.</div>
+        <div class="tl-text" style="margin-top:8px;"><strong style="color:var(--star);">Случайное совпадение:</strong> в тот же день астероид 2012 DA14 (45 м) прошёл в 27 700 км от Земли — самое близкое из известных сближений. Эти два объекта не были связаны между собой.</div>
+        <span class="tl-tag danger">НЕ БЫЛО ОБНАРУЖЕНО ДО УДАРА</span>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot gold"></div>
+      <div class="tl-content">
+        <div class="tl-date">26 СЕНТЯБРЯ 2022</div>
+        <div class="tl-title">DART: впервые человечество сдвинуло астероид</div>
+        <div class="tl-text">Зонд DART (Double Asteroid Redirection Test) намеренно врезался в астероид Диморф — спутник более крупного Дидима. Масса зонда: 570 кг. Скорость удара: 6,6 км/с. Результат: орбитальный период Диморфа изменился с 11 ч 55 мин до 11 ч 23 мин — сдвиг в 32 минуты, что в 25 раз превысил ожидания учёных.</div>
+        <div class="tl-text" style="margin-top:8px;"><strong style="color:var(--star);">Что это значит:</strong> если бы реальный астероид угрожал Земле и мы знали об этом за 10–20 лет — такой удар, повторённый несколько раз, мог бы изменить его траекторию достаточно чтобы разминуться с Землёй.</div>
+        <div class="tl-text" style="margin-top:8px;"><strong style="color:var(--star);">Кто мешал:</strong> Конгресс сначала урезал бюджет миссии. Ряд учёных критиковал что миссия «тратит деньги на мусор в космосе». Россия не участвовала.</div>
+        <span class="tl-tag ok">ЧЕЛОВЕЧЕСТВО МОЖЕТ ЗАЩИТИТЬСЯ — НО НУЖНО ВРЕМЯ</span>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-content">
+        <div class="tl-date">СЕГОДНЯ</div>
+        <div class="tl-title">Что происходит прямо сейчас</div>
+        <div class="tl-text">NASA Planetary Defense Coordination Office (PDCO) отслеживает более 32 000 известных околоземных объектов. Ежегодно открывают около 2 000 новых. Бюджет на 2024 год: $90 млн — в 22 раза больше чем в 1998, но всё ещё меньше чем стоит один истребитель F-35.</div>
+        <div class="tl-text" style="margin-top:8px;">Главная слепая зона: объекты летящие со стороны Солнца — как Челябинский метеорит. Телескоп NEO Surveyor запустят в 2026 году. Он будет смотреть в сторону Солнца и закроет эту брешь.</div>
+        <span class="tl-tag">32 000 ИЗВЕСТНЫХ ОБЪЕКТОВ · ТЫСЯЧИ ЕЩЁ НЕ ОТКРЫТЫ</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- DARK SKY -->
+<section class="section" id="dark-sky">
+  <div class="section-header">
+    <div class="section-tag">Раздел 03 · Тёмное небо</div>
+    <h2 class="section-title">Городской житель <span class="dim">живёт под искусственным солнцем</span></h2>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:2px;">
+    <div class="card">
+      <div class="big-stat blue">83%</div>
+      <div class="stat-label">населения мира живёт под засвеченным небом</div>
+      <p style="margin-top:12px;">Исследование 2016 года (Fabio Falchi et al., Science Advances): 83% населения Земли никогда не видит Млечный Путь невооружённым глазом. В Европе — 99%, в США — 80%.</p>
+    </div>
+    <div class="card">
+      <div class="big-stat fire">6 000</div>
+      <div class="stat-label">звёзд видно в идеальных условиях</div>
+      <p style="margin-top:12px;">Житель Москвы или Риги в ясную ночь видит 10–50 звёзд. Житель тёмного сельского района — до 6 000 звёзд и Млечный Путь. Это разница как между чёрно-белой фотографией и оригиналом.</p>
+    </div>
+  </div>
+
+  <div class="bortle-chart">
+    <div class="card-label" style="margin-bottom:16px;">Шкала Бортля: насколько тёмное ваше небо</div>
+    <div class="bortle-row">
+      <div class="bortle-num">1</div>
+      <div class="bortle-bar-wrap"><div class="bortle-bar" style="width:100%;background:linear-gradient(90deg,#0a0a1a,#1a1a3a);">Абсолютная тьма — пустыня, высокогорье</div></div>
+      <div class="bortle-label">6000+ звёзд, зодиакальный свет</div>
+    </div>
+    <div class="bortle-row">
+      <div class="bortle-num">2</div>
+      <div class="bortle-bar-wrap"><div class="bortle-bar" style="width:85%;background:linear-gradient(90deg,#0d1030,#252560);">Отличное тёмное небо</div></div>
+      <div class="bortle-label">Млечный Путь отбрасывает тень</div>
+    </div>
+    <div class="bortle-row">
+      <div class="bortle-num">3</div>
+      <div class="bortle-bar-wrap"><div class="bortle-bar" style="width:70%;background:linear-gradient(90deg,#151545,#303080);">Сельское небо</div></div>
+      <div class="bortle-label">Все созвездия видны чётко</div>
+    </div>
+    <div class="bortle-row">
+      <div class="bortle-num">4–5</div>
+      <div class="bortle-bar-wrap"><div class="bortle-bar" style="width:55%;background:linear-gradient(90deg,#2a2060,#504080);">Пригород</div></div>
+      <div class="bortle-label">Млечный Путь едва заметен</div>
+    </div>
+    <div class="bortle-row">
+      <div class="bortle-num">6–7</div>
+      <div class="bortle-bar-wrap"><div class="bortle-bar" style="width:40%;background:linear-gradient(90deg,#3a3050,#605050);">Город</div></div>
+      <div class="bortle-label">100–200 звёзд, туман над горизонтом</div>
+    </div>
+    <div class="bortle-row">
+      <div class="bortle-num">8</div>
+      <div class="bortle-bar-wrap"><div class="bortle-bar" style="width:25%;background:linear-gradient(90deg,#504040,#806060);">Центр города</div></div>
+      <div class="bortle-label">20–40 звёзд, созвездия угадываются</div>
+    </div>
+    <div class="bortle-row">
+      <div class="bortle-num">9</div>
+      <div class="bortle-bar-wrap"><div class="bortle-bar" style="width:12%;background:linear-gradient(90deg,#804040,#a06060);">Мегаполис</div></div>
+      <div class="bortle-label">5–10 звёзд. Небо оранжевое.</div>
+    </div>
+    <p style="font-size:12px;color:var(--dim);margin-top:12px;">Рига — примерно 7–8 по шкале Бортля. Небо Рижских окрестностей — 4–5. До «нормального» неба — 2–3 часа езды.</p>
+  </div>
+
+  <div class="grid-2" style="margin-top:2px;margin-bottom:2px;">
+    <div class="card">
+      <div class="card-label">Физиология</div>
+      <h3>Что делает искусственный свет с телом</h3>
+      <ul>
+        <li><strong style="color:var(--star);">Мелатонин:</strong> синий спектр LED-освещения подавляет выработку мелатонина в 5 раз сильнее чем обычный свет. Мелатонин — главный регулятор сна и иммунитета.</li>
+        <li><strong style="color:var(--star);">Циркадные ритмы:</strong> исследование 2019 года (IARC) показало: у работниц ночных смен риск рака молочной железы выше на 19%. ВОЗ с 2007 года относит ночную работу к «вероятным канцерогенам».</li>
+        <li><strong style="color:var(--star);">Сон:</strong> городские жители спят в среднем на 40 минут меньше сельских. Качество сна хуже — больше пробуждений.</li>
+        <li><strong style="color:var(--star);">Зрение:</strong> жизнь без ночного неба лишает глаза регулярной адаптации к темноте. Мышцы радужной оболочки атрофируются медленно, но верно.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-label">Психология и экзистенциальность</div>
+      <h3>Что человек теряет вместе со звёздами</h3>
+      <ul>
+        <li><strong style="color:var(--star);">Эффект обзора (Overview Effect):</strong> астронавты описывают радикальное изменение восприятия после вида на Землю из космоса. Аналог — ночное небо с Млечным Путём вызывает похожее ощущение собственной малости и связи со вселенной.</li>
+        <li><strong style="color:var(--star);">Временна́я перспектива:</strong> свет от видимых звёзд летел к нам от 4 до 1500 лет. Смотреть на звёзды — буквально смотреть в прошлое. Это перестраивает масштаб воспринимаемого времени.</li>
+        <li><strong style="color:var(--star);">AWE (трепет):</strong> психологи из Стэнфорда установили что регулярное переживание «трепета» — от красоты природы, музыки, огромного пространства — снижает тревожность, уменьшает эгоцентризм и повышает просоциальное поведение.</li>
+        <li><strong style="color:var(--star);">Навигационная культура:</strong> тысячи лет люди жили по звёздам — не только навигационно, но и ритмически. Сезоны, праздники, посев, урожай. Мы первое поколение которое полностью разорвало эту связь.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Что с этим делать</div>
+    <h3>Тёмные заповедники неба — реальная практика</h3>
+    <div class="grid-2" style="gap:20px;margin-top:0;">
+      <div>
+        <p>С 2001 года существует Международная ассоциация тёмного неба (IDA). Она сертифицирует «Тёмные заповедники» — территории с официально защищённым ночным небом. На 2024 год: более 200 сертифицированных мест в 22 странах.</p>
+        <p><strong style="color:var(--star);">В Европе:</strong> Национальный парк Йоркшир-Дейлз (Великобритания), Alqueva Dark Sky Reserve (Португалия), Zselic Starry Sky Park (Венгрия).</p>
+      </div>
+      <div>
+        <p><strong style="color:var(--star);">Рядом с Латвией:</strong> Национальный парк Гауя (Латвия) — официально рекомендуемое место для наблюдения звёзд. Минимальный световой шум доступен в 80–100 км от Риги.</p>
+        <p>Простое правило: выехать из города минимум на 40 км, дать глазам адаптироваться в темноте 20–30 минут. Млечный Путь откроется уже при шкале Бортля 4–5.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- GAME -->
+<section id="game-section">
+  <div class="game-wrap">
+    <div class="game-header">
+      <div class="section-tag" style="justify-content:center;text-align:center;">Раздел 04 · Мини-игра</div>
+      <h2>Не дай комете упасть</h2>
+      <p style="color:var(--dim);font-size:14px;margin-top:8px;">5 уровней. Управление: мышь или касание.</p>
+      <div class="game-meta">
+        <div class="game-meta-item">УРОВЕНЬ: <span id="level-display">1</span></div>
+        <div class="game-meta-item">ЖИЗНИ: <span id="lives-display">3</span></div>
+        <div class="game-meta-item">СЧЁТ: <span id="score-display">0</span></div>
+      </div>
+    </div>
+    <canvas id="game-canvas" width="640" height="420"></canvas>
+    <div id="level-info">Нажмите СТАРТ чтобы начать игру</div>
+    <div class="game-controls">
+      <button class="game-btn primary" id="start-btn" onclick="startGame()">СТАРТ</button>
+      <button class="game-btn" onclick="restartGame()">ЗАНОВО</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  КИНО-НЕДЕЛЯ · ДЕНЬ 2 · НЕ СМОТРИТЕ НАВЕРХ<br>
+  <span style="opacity:0.4;display:block;margin-top:6px;">Данные: NASA PDCO · Nature · Science Advances · IDA · Fabio Falchi et al. 2016</span>
+</footer>
+
+<script>
+// STARFIELD
+(function(){
+  const sf=document.getElementById('starfield');
+  for(let i=0;i<200;i++){
+    const d=document.createElement('div');
+    d.className='star-dot';
+    const s=Math.random()*2+0.5;
+    d.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--dur:${2+Math.random()*4}s;--delay:${Math.random()*-5}s;--min:${0.1+Math.random()*0.2};--max:${0.6+Math.random()*0.4}`;
+    sf.appendChild(d);
+  }
+})();
+
+// GAME
+const canvas=document.getElementById('game-canvas');
+const ctx=canvas.getContext('2d');
+
+// Responsive canvas
+function resizeCanvas(){
+  const wrap=document.querySelector('.game-wrap');
+  const maxW=Math.min(640,wrap.clientWidth-48);
+  const scale=maxW/640;
+  canvas.style.width=maxW+'px';
+  canvas.style.height=(420*scale)+'px';
+}
+resizeCanvas();
+window.addEventListener('resize',resizeCanvas);
+
+const W=640,H=420;
+let state='idle';
+let level=1,lives=3,score=0;
+let raf=null;
+let gameOver=false;
+let levelComplete=false;
+let explosionFrames=0;
+let chaosMode=false;
+let chaosTimer=0;
+let coins=[];
+let coinsCaught=0;
+
+const LEVELS=[
+  {id:1,label:'Уровень 1: Пирамида',desc:'Не дай комете упасть на землю. Отбивай от блоков.'},
+  {id:2,label:'Уровень 2: Монеты',desc:'Блоков нет — собирай монеты кометой.'},
+  {id:3,label:'Уровень 3: Новая форма',desc:'Блоки построены в форме звезды. Разрушь все.'},
+  {id:4,label:'Уровень 4: Ускорение',desc:'Блоки в форме креста. Комета быстрее.'},
+  {id:5,label:'Уровень 5: Хаос',desc:'Комета вышла из-под контроля...'}
+];
+
+let paddle={x:270,y:390,w:100,h:10,speed:8};
+let ball={x:320,y:370,vx:3,vy:-4,r:10,trail:[]};
+let blocks=[];
+let particles=[];
+let explosionX=0,explosionY=0;
+
+function makePyramid(){
+  blocks=[];
+  const rows=5;
+  for(let r=0;r<rows;r++){
+    const count=rows-r;
+    const totalW=count*54;
+    const startX=(W-totalW)/2;
+    for(let c=0;c<count;c++){
+      blocks.push({x:startX+c*54,y:40+r*28,w:50,h:22,alive:true,color:hue(r)});
+    }
+  }
+}
+
+function makeStar(){
+  blocks=[];
+  const cx=W/2,cy=140;
+  // diamond pattern
+  const pattern=[
+    [0,0],[1,0],[-1,0],[0,1],[0,-1],[2,0],[-2,0],[0,2],[0,-2],
+    [1,1],[1,-1],[-1,1],[-1,-1],[2,1],[-2,1],[2,-1],[-2,-1],[1,2],[-1,2],[1,-2],[-1,-2]
+  ];
+  pattern.forEach(([dx,dy])=>{
+    blocks.push({x:cx+dx*56-25,y:cy+dy*28-11,w:50,h:22,alive:true,color:hue(Math.abs(dx+dy))});
+  });
+}
+
+function makeCross(){
+  blocks=[];
+  const cx=W/2,cy=140;
+  for(let i=-4;i<=4;i++){
+    blocks.push({x:cx+i*56-25,y:cy-11,w:50,h:22,alive:true,color:hue(Math.abs(i))});
+    if(i!==0) blocks.push({x:cx-25,y:cy+i*28-11,w:50,h:22,alive:true,color:hue(Math.abs(i)+2)});
+  }
+}
+
+function makeCoins(){
+  coins=[];
+  coinsCaught=0;
+  for(let i=0;i<20;i++){
+    coins.push({x:60+Math.random()*(W-120),y:40+Math.random()*200,r:10,alive:true});
+  }
+}
+
+function hue(i){
+  const cols=['#4488FF','#66AAFF','#88CCFF','#AADDFF','#FFB347','#FF8C42','#6BD9B0'];
+  return cols[i%cols.length];
+}
+
+function initLevel(){
+  ball={x:W/2,y:H-60,vx:3+(level-1)*0.4,vy:-(4+(level-1)*0.3),r:10,trail:[]};
+  paddle={x:(W-100)/2,y:H-30,w:100-(level-1)*5,h:10,speed:8};
+  particles=[];
+  chaosMode=false;
+  chaosTimer=0;
+  levelComplete=false;
+  coins=[];
+  blocks=[];
+  if(level===1) makePyramid();
+  else if(level===2) makeCoins();
+  else if(level===3) makeStar();
+  else if(level===4) makeCross();
+  else if(level===5){ makeCross(); chaosMode=false; }
+  updateHUD();
+  document.getElementById('level-info').textContent=LEVELS[level-1].desc;
+}
+
+function updateHUD(){
+  document.getElementById('level-display').textContent=level;
+  document.getElementById('lives-display').textContent=lives;
+  document.getElementById('score-display').textContent=score;
+}
+
+function startGame(){
+  state='playing';
+  level=1;lives=3;score=0;gameOver=false;
+  document.getElementById('start-btn').textContent='ПАУЗА';
+  document.getElementById('start-btn').onclick=togglePause;
+  initLevel();
+  if(raf) cancelAnimationFrame(raf);
+  loop();
+}
+
+function togglePause(){
+  if(state==='playing'){state='paused';document.getElementById('start-btn').textContent='ПРОДОЛЖИТЬ';}
+  else if(state==='paused'){state='playing';document.getElementById('start-btn').textContent='ПАУЗА';loop();}
+}
+
+function restartGame(){
+  state='idle';
+  if(raf) cancelAnimationFrame(raf);
+  gameOver=false;level=1;lives=3;score=0;
+  document.getElementById('start-btn').textContent='СТАРТ';
+  document.getElementById('start-btn').onclick=startGame;
+  document.getElementById('level-info').textContent='Нажмите СТАРТ чтобы начать игру';
+  updateHUD();
+  drawIdle();
+}
+
+canvas.addEventListener('mousemove',e=>{
+  if(state!=='playing') return;
+  const rect=canvas.getBoundingClientRect();
+  const scaleX=W/rect.width;
+  paddle.x=(e.clientX-rect.left)*scaleX-paddle.w/2;
+  paddle.x=Math.max(0,Math.min(W-paddle.w,paddle.x));
+});
+canvas.addEventListener('touchmove',e=>{
+  e.preventDefault();
+  if(state!=='playing') return;
+  const rect=canvas.getBoundingClientRect();
+  const scaleX=W/rect.width;
+  paddle.x=(e.touches[0].clientX-rect.left)*scaleX-paddle.w/2;
+  paddle.x=Math.max(0,Math.min(W-paddle.w,paddle.x));
+},{passive:false});
+
+function spawnParticles(x,y,color,n){
+  for(let i=0;i<n;i++){
+    const angle=Math.random()*Math.PI*2;
+    const speed=1+Math.random()*4;
+    particles.push({x,y,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,life:1,color,r:2+Math.random()*3});
+  }
+}
+
+function loop(){
+  if(state!=='playing'){return;}
+  raf=requestAnimationFrame(loop);
+  update();
+  draw();
+}
+
+function update(){
+  if(gameOver||levelComplete) return;
+
+  // Chaos mode level 5
+  if(level===5){
+    chaosTimer++;
+    if(chaosTimer>180 && !chaosMode){
+      chaosMode=true;
+      document.getElementById('level-info').textContent='⚠ КОМЕТА ВЫШЛА ИЗ КОНТРОЛЯ...';
+    }
+    if(chaosMode){
+      ball.vx+=(Math.random()-0.5)*0.3;
+      ball.vy+=(Math.random()-0.5)*0.3;
+      // Clamp speed
+      const spd=Math.sqrt(ball.vx*ball.vx+ball.vy*ball.vy);
+      if(spd>12){ball.vx=ball.vx/spd*12;ball.vy=ball.vy/spd*12;}
+      // Eventually fall
+      if(chaosTimer>420){
+        ball.vy=Math.abs(ball.vy)*0.5+2;
+        ball.vx*=0.98;
+      }
+    }
+  }
+
+  // Trail
+  ball.trail.push({x:ball.x,y:ball.y});
+  if(ball.trail.length>12) ball.trail.shift();
+
+  // Move ball
+  ball.x+=ball.vx;
+  ball.y+=ball.vy;
+
+  // Wall collisions
+  if(ball.x-ball.r<0){ball.x=ball.r;ball.vx=Math.abs(ball.vx);}
+  if(ball.x+ball.r>W){ball.x=W-ball.r;ball.vx=-Math.abs(ball.vx);}
+  if(ball.y-ball.r<0){ball.y=ball.r;ball.vy=Math.abs(ball.vy);}
+
+  // Paddle collision
+  if(ball.y+ball.r>=paddle.y && ball.y+ball.r<=paddle.y+paddle.h+8 &&
+     ball.x>paddle.x-ball.r && ball.x<paddle.x+paddle.w+ball.r && ball.vy>0){
+    ball.y=paddle.y-ball.r;
+    const rel=(ball.x-(paddle.x+paddle.w/2))/(paddle.w/2);
+    const angle=rel*1.1;
+    const spd=Math.sqrt(ball.vx*ball.vx+ball.vy*ball.vy);
+    ball.vx=Math.sin(angle)*spd;
+    ball.vy=-Math.cos(angle)*spd;
+    spawnParticles(ball.x,ball.y,'#88AAFF',5);
+    score+=2; updateHUD();
+  }
+
+  // Block collisions
+  blocks.forEach(b=>{
+    if(!b.alive) return;
+    if(ball.x+ball.r>b.x && ball.x-ball.r<b.x+b.w &&
+       ball.y+ball.r>b.y && ball.y-ball.r<b.y+b.h){
+      b.alive=false;
+      score+=10; updateHUD();
+      spawnParticles(b.x+b.w/2,b.y+b.h/2,b.color,8);
+      // Determine bounce direction
+      const overlapL=ball.x+ball.r-b.x;
+      const overlapR=b.x+b.w-ball.x+ball.r;
+      const overlapT=ball.y+ball.r-b.y;
+      const overlapB=b.y+b.h-ball.y+ball.r;
+      const minH=Math.min(overlapL,overlapR);
+      const minV=Math.min(overlapT,overlapB);
+      if(minH<minV) ball.vx=-ball.vx;
+      else ball.vy=-ball.vy;
+    }
+  });
+
+  // Coin collisions
+  coins.forEach(c=>{
+    if(!c.alive) return;
+    const dx=ball.x-c.x,dy=ball.y-c.y;
+    if(Math.sqrt(dx*dx+dy*dy)<ball.r+c.r){
+      c.alive=false;coinsCaught++;
+      score+=15; updateHUD();
+      spawnParticles(c.x,c.y,'#F5C842',10);
+    }
+  });
+
+  // Particles
+  particles.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=0.1;p.life-=0.03;});
+  particles=particles.filter(p=>p.life>0);
+
+  // Check lose
+  if(ball.y-ball.r>H){
+    if(level===5 && chaosTimer>420){
+      // Final explosion
+      triggerFinalExplosion();
+      return;
+    }
+    lives--;
+    updateHUD();
+    spawnParticles(ball.x,H,'#FF6B35',20);
+    if(lives<=0){
+      triggerGameOver();
+    } else {
+      ball={x:W/2,y:H-60,vx:3+(level-1)*0.4,vy:-(4+(level-1)*0.3),r:10,trail:[]};
+    }
+  }
+
+  // Check win
+  if(level!==2 && level!==5 && blocks.every(b=>!b.alive)){
+    levelComplete=true;
+    score+=100;
+    document.getElementById('level-info').textContent=`✓ Уровень ${level} пройден! +100 очков`;
+    setTimeout(()=>{
+      if(level<5){level++;initLevel();}
+    },1500);
+  }
+  if(level===2 && coins.every(c=>!c.alive)){
+    levelComplete=true;
+    score+=100;
+    document.getElementById('level-info').textContent=`✓ Все монеты собраны! +100 очков`;
+    setTimeout(()=>{level++;initLevel();},1500);
+  }
+  if(level===5 && blocks.length>0 && blocks.every(b=>!b.alive)){
+    // Level 5 blocks done but chaos continues until ball falls
+  }
+}
+
+function triggerGameOver(){
+  gameOver=true;
+  explosionX=ball.x; explosionY=ball.y;
+  explosionFrames=0;
+  spawnParticles(ball.x,ball.y,'#FF6B35',40);
+  spawnParticles(ball.x,ball.y,'#FFD700',20);
+  document.getElementById('level-info').textContent='';
+  setTimeout(()=>drawEndScreen(false),1500);
+}
+
+function triggerFinalExplosion(){
+  gameOver=true;
+  explosionX=W/2; explosionY=H;
+  spawnParticles(W/2,H,'#FF6B35',60);
+  spawnParticles(W/2,H,'#FFD700',40);
+  spawnParticles(W/2,H,'#FFFFFF',20);
+  for(let i=0;i<10;i++){
+    setTimeout(()=>{spawnParticles(Math.random()*W,H-Math.random()*100,'#FF6B35',15);},i*80);
+  }
+  document.getElementById('level-info').textContent='';
+  setTimeout(()=>drawEndScreen(true),2000);
+}
+
+function drawEndScreen(isFinal){
+  state='gameover';
+  ctx.fillStyle=isFinal?'rgba(3,5,13,0.97)':'rgba(3,5,13,0.92)';
+  ctx.fillRect(0,0,W,H);
+
+  if(isFinal){
+    // Big explosion graphic
+    const grad=ctx.createRadialGradient(W/2,H/2,0,W/2,H/2,W/2);
+    grad.addColorStop(0,'rgba(255,107,53,0.4)');
+    grad.addColorStop(0.5,'rgba(255,107,53,0.1)');
+    grad.addColorStop(1,'transparent');
+    ctx.fillStyle=grad;
+    ctx.fillRect(0,0,W,H);
+
+    ctx.fillStyle='#FF6B35';
+    ctx.font='bold 64px Space Grotesk, sans-serif';
+    ctx.textAlign='center';
+    ctx.fillText('💥',W/2,H/2-60);
+
+    ctx.fillStyle='#FF6B35';
+    ctx.font='bold 28px Space Grotesk, sans-serif';
+    ctx.fillText('Game Over',W/2,H/2-10);
+
+    ctx.fillStyle='#E8EBF5';
+    ctx.font='16px Space Grotesk, sans-serif';
+    const lines=[
+      'Спасибо за участие в игре под названием',
+      '(Жизнь)'
+    ];
+    lines.forEach((l,i)=>ctx.fillText(l,W/2,H/2+26+i*26));
+
+    ctx.fillStyle='#6B7499';
+    ctx.font='13px Space Mono, monospace';
+    ctx.fillText(`Финальный счёт: ${score}`,W/2,H/2+100);
+    ctx.fillText('— комета всё равно прорвалась —',W/2,H/2+122);
+  } else {
+    ctx.fillStyle='#E74C3C';
+    ctx.font='bold 32px Space Grotesk, sans-serif';
+    ctx.textAlign='center';
+    ctx.fillText('ИГРА ОКОНЧЕНА',W/2,H/2-30);
+    ctx.fillStyle='#E8EBF5';
+    ctx.font='16px Space Grotesk, sans-serif';
+    ctx.fillText(`Счёт: ${score}`,W/2,H/2+10);
+    ctx.fillStyle='#6B7499';
+    ctx.font='13px Space Mono, monospace';
+    ctx.fillText('Нажмите ЗАНОВО для повтора',W/2,H/2+50);
+  }
+}
+
+function draw(){
+  ctx.clearRect(0,0,W,H);
+
+  // Stars background
+  ctx.fillStyle=`rgba(3,5,13,0.3)`;
+  ctx.fillRect(0,0,W,H);
+
+  // Earth line
+  ctx.fillStyle='rgba(30,80,140,0.3)';
+  ctx.fillRect(0,H-15,W,15);
+  ctx.strokeStyle='rgba(136,170,255,0.3)';
+  ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(0,H-15);ctx.lineTo(W,H-15);ctx.stroke();
+
+  // Particles
+  particles.forEach(p=>{
+    ctx.globalAlpha=p.life;
+    ctx.fillStyle=p.color;
+    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();
+  });
+  ctx.globalAlpha=1;
+
+  // Blocks
+  blocks.forEach(b=>{
+    if(!b.alive) return;
+    ctx.fillStyle=b.color+'33';
+    ctx.fillRect(b.x,b.y,b.w,b.h);
+    ctx.strokeStyle=b.color;
+    ctx.lineWidth=1;
+    ctx.strokeRect(b.x+0.5,b.y+0.5,b.w-1,b.h-1);
+    ctx.fillStyle=b.color+'AA';
+    ctx.fillRect(b.x+1,b.y+1,b.w-2,4);
+  });
+
+  // Coins
+  coins.forEach(c=>{
+    if(!c.alive) return;
+    const t=Date.now()/500;
+    ctx.save();
+    ctx.translate(c.x,c.y);
+    ctx.rotate(Math.sin(t+c.x)*0.3);
+    ctx.fillStyle='#F5C842';
+    ctx.beginPath();ctx.arc(0,0,c.r,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#C8A028';
+    ctx.font='bold 10px sans-serif';
+    ctx.textAlign='center';
+    ctx.textBaseline='middle';
+    ctx.fillText('★',0,0);
+    ctx.restore();
+  });
+
+  // Ball trail
+  ball.trail.forEach((t,i)=>{
+    const a=(i/ball.trail.length)*0.4;
+    ctx.globalAlpha=a;
+    ctx.fillStyle='#88AAFF';
+    ctx.beginPath();
+    ctx.arc(t.x,t.y,ball.r*(i/ball.trail.length),0,Math.PI*2);
+    ctx.fill();
+  });
+  ctx.globalAlpha=1;
+
+  // Ball (comet)
+  const grad=ctx.createRadialGradient(ball.x-2,ball.y-2,1,ball.x,ball.y,ball.r);
+  grad.addColorStop(0,'#FFFFFF');
+  grad.addColorStop(0.4,'#88AAFF');
+  grad.addColorStop(1,'#4466CC');
+  ctx.fillStyle=grad;
+  ctx.beginPath();ctx.arc(ball.x,ball.y,ball.r,0,Math.PI*2);ctx.fill();
+
+  // Comet glow
+  ctx.shadowBlur=chaosMode?30:15;
+  ctx.shadowColor=chaosMode?'#FF6B35':'#88AAFF';
+  ctx.fillStyle=chaosMode?'rgba(255,107,53,0.3)':'rgba(136,170,255,0.3)';
+  ctx.beginPath();ctx.arc(ball.x,ball.y,ball.r+4,0,Math.PI*2);ctx.fill();
+  ctx.shadowBlur=0;
+
+  // Paddle
+  const pg=ctx.createLinearGradient(paddle.x,paddle.y,paddle.x,paddle.y+paddle.h);
+  pg.addColorStop(0,'#88AAFF');
+  pg.addColorStop(1,'#4466CC');
+  ctx.fillStyle=pg;
+  ctx.beginPath();
+  ctx.roundRect(paddle.x,paddle.y,paddle.w,paddle.h,4);
+  ctx.fill();
+
+  // HUD level text
+  if(level===5 && chaosMode){
+    ctx.fillStyle='rgba(255,107,53,0.15)';
+    ctx.fillRect(0,0,W,H);
+  }
+}
+
+function drawIdle(){
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='rgba(3,5,13,0.95)';
+  ctx.fillRect(0,0,W,H);
+  // Stars
+  for(let i=0;i<80;i++){
+    ctx.fillStyle=`rgba(232,235,245,${Math.random()*0.8+0.1})`;
+    ctx.beginPath();
+    ctx.arc(Math.random()*W,Math.random()*H*0.7,Math.random()*1.5,0,Math.PI*2);
+    ctx.fill();
+  }
+  ctx.fillStyle='rgba(136,170,255,0.6)';
+  ctx.font='48px sans-serif';
+  ctx.textAlign='center';
+  ctx.fillText('☄',W/2,H/2-20);
+  ctx.fillStyle='#E8EBF5';
+  ctx.font='600 20px Space Grotesk, sans-serif';
+  ctx.fillText('Не дай комете упасть',W/2,H/2+30);
+  ctx.fillStyle='#6B7499';
+  ctx.font='12px Space Mono, monospace';
+  ctx.fillText('5 уровней · управление мышью или пальцем',W/2,H/2+58);
+}
+
+drawIdle();
+</script>
+</body>
+</html>
