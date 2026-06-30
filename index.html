@@ -692,9 +692,9 @@ footer {
     <h3>ТРАЕКТОРИЯ И БАЛЛИСТИКА УДАРА</h3>
     <div class="traj-grid">
       <div class="traj-angle">
-        <div class="traj-deg">45<span>°</span></div>
-        <div class="stat-label" style="font-size:10px;margin-top:8px;">угол вхождения<br>в атмосферу</div>
-        <p style="font-size:12px;color:var(--dim);margin-top:12px;line-height:1.5;">Именно этот угол оказался максимально разрушительным — обеспечил наибольшее выделение серы и сажи в стратосферу</p>
+        <div class="traj-deg">60<span>°</span></div>
+        <div class="stat-label" style="font-size:10px;margin-top:8px;">угол вхождения<br>(диапазон 45–60°)</div>
+        <p style="font-size:12px;color:var(--dim);margin-top:12px;line-height:1.5;">По данным Imperial College London (Collins et al., 2020, Nature Communications) — именно 60° даёт наилучшее совпадение с геофизическими данными кратера и считается «максимально смертоносным» углом</p>
       </div>
       <div>
         <p style="font-size:13.5px;color:#A8B0CC;line-height:1.7;margin-bottom:12px;"><strong style="color:var(--star);">Направление:</strong> астероид летел с северо-востока на юго-восток, вошёл в атмосферу над тем что сейчас является Мексиканским заливом.</p>
@@ -905,7 +905,7 @@ footer {
       <div class="bortle-bar-wrap"><div class="bortle-bar" style="width:12%;background:linear-gradient(90deg,#804040,#a06060);">Мегаполис</div></div>
       <div class="bortle-label">5–10 звёзд. Небо оранжевое.</div>
     </div>
-    <p style="font-size:12px;color:var(--dim);margin-top:12px;">Рига — примерно 7–8 по шкале Бортля. Небо Рижских окрестностей — 4–5. До «нормального» неба — 2–3 часа езды.</p>
+    <p style="font-size:12px;color:var(--dim);margin-top:12px;">Тюмень — примерно 7–8 по шкале Бортля (городской центр). Уже в Гилевской роще и Затюменском экопарке после полуночи отключают наружное освещение — это поднимает условия до 5–6. До настоящего тёмного неба (3–4) — около часа езды: берега озера Андреевское или Сингуль, либо Иртыш у села Абалак в Тобольском районе.</p>
   </div>
 
   <div class="grid-2" style="margin-top:2px;margin-bottom:2px;">
@@ -940,8 +940,8 @@ footer {
         <p><strong style="color:var(--star);">В Европе:</strong> Национальный парк Йоркшир-Дейлз (Великобритания), Alqueva Dark Sky Reserve (Португалия), Zselic Starry Sky Park (Венгрия).</p>
       </div>
       <div>
-        <p><strong style="color:var(--star);">Рядом с Латвией:</strong> Национальный парк Гауя (Латвия) — официально рекомендуемое место для наблюдения звёзд. Минимальный световой шум доступен в 80–100 км от Риги.</p>
-        <p>Простое правило: выехать из города минимум на 40 км, дать глазам адаптироваться в темноте 20–30 минут. Млечный Путь откроется уже при шкале Бортля 4–5.</p>
+        <p><strong style="color:var(--star);">Рядом с Тюменью:</strong> официальных DarkSky-заповедников в России пока нет — но природных «тёмных» мест достаточно. Гилевская роща и Затюменский экопарк отключают освещение после полуночи (Бортль 5–6). Озёра Андреевское и Сингуль, берег Иртыша у Абалака — уже близко к настоящей темноте (Бортль 3–4), 40–60 минут от города.</p>
+        <p><strong style="color:var(--star);">Лучшие места в России для астротуризма:</strong> плато Лаго-Наки в Адыгее (2200 м, Кавказский биосферный заповедник), Чуйская степь и Алтайский биосферный заповедник на Алтае, окрестности Эльбруса, Софийские водопады на Кавказе. Это места куда стоит ехать специально — настоящий Млечный Путь без всякой засветки.</p>
       </div>
     </div>
   </div>
@@ -955,7 +955,7 @@ footer {
     <div class="game-header">
       <div class="section-tag" style="justify-content:center;text-align:center;">Раздел 04 · Мини-игра</div>
       <h2>Не дай комете упасть</h2>
-      <p style="color:var(--dim);font-size:14px;margin-top:8px;">5 уровней. Управление: мышь или касание.</p>
+      <p style="color:var(--dim);font-size:14px;margin-top:8px;">6 уровней. Управление: мышь или касание. Звук рекомендуется включить.</p>
       <div class="game-meta">
         <div class="game-meta-item">УРОВЕНЬ: <span id="level-display">1</span></div>
         <div class="game-meta-item">ЖИЗНИ: <span id="lives-display">3</span></div>
@@ -1015,13 +1015,17 @@ let chaosMode=false;
 let chaosTimer=0;
 let coins=[];
 let coinsCaught=0;
+let level6Phase='blocks';
+let level6Timer=0;
+let level6HitOnce=false;
 
 const LEVELS=[
   {id:1,label:'Уровень 1: Пирамида',desc:'Не дай комете упасть на землю. Отбивай от блоков.'},
   {id:2,label:'Уровень 2: Монеты',desc:'Блоков нет — собирай монеты кометой.'},
   {id:3,label:'Уровень 3: Новая форма',desc:'Блоки построены в форме звезды. Разрушь все.'},
   {id:4,label:'Уровень 4: Ускорение',desc:'Блоки в форме креста. Комета быстрее.'},
-  {id:5,label:'Уровень 5: Хаос',desc:'Комета вышла из-под контроля...'}
+  {id:5,label:'Уровень 5: ДИМА',desc:'Разбей своё имя из блоков.'},
+  {id:6,label:'Уровень 6: Сердце',desc:'Последний уровень. Комета непредсказуема.'}
 ];
 
 let paddle={x:270,y:390,w:100,h:10,speed:8};
@@ -1029,6 +1033,210 @@ let ball={x:320,y:370,vx:3,vy:-4,r:10,trail:[]};
 let blocks=[];
 let particles=[];
 let explosionX=0,explosionY=0;
+
+// SOUND SYSTEM (Web Audio API, no external files)
+let audioCtx=null;
+function getAudioCtx(){
+  if(!audioCtx){
+    try{ audioCtx=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){}
+  }
+  return audioCtx;
+}
+function playBlockHit(){
+  const ctx=getAudioCtx(); if(!ctx) return;
+  const o=ctx.createOscillator(), g=ctx.createGain();
+  o.type='square';
+  o.frequency.setValueAtTime(420+Math.random()*180,ctx.currentTime);
+  o.frequency.exponentialRampToValueAtTime(180,ctx.currentTime+0.09);
+  g.gain.setValueAtTime(0.13,ctx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.1);
+  o.connect(g); g.connect(ctx.destination);
+  o.start(); o.stop(ctx.currentTime+0.1);
+}
+function playPaddleHit(){
+  const ctx=getAudioCtx(); if(!ctx) return;
+  const o=ctx.createOscillator(), g=ctx.createGain();
+  o.type='sine';
+  o.frequency.setValueAtTime(220,ctx.currentTime);
+  o.frequency.exponentialRampToValueAtTime(330,ctx.currentTime+0.08);
+  g.gain.setValueAtTime(0.1,ctx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.12);
+  o.connect(g); g.connect(ctx.destination);
+  o.start(); o.stop(ctx.currentTime+0.12);
+}
+function playCoinSound(){
+  // Dota-like "gold pickup" arpeggio: bright bell chord ascending
+  const ctx=getAudioCtx(); if(!ctx) return;
+  const freqs=[988,1245,1568]; // B5, D#6/Eb6, G6 — bright major triad
+  freqs.forEach((f,i)=>{
+    const o=ctx.createOscillator(), g=ctx.createGain();
+    o.type='triangle';
+    o.frequency.setValueAtTime(f,ctx.currentTime+i*0.035);
+    g.gain.setValueAtTime(0.001,ctx.currentTime+i*0.035);
+    g.gain.linearRampToValueAtTime(0.11,ctx.currentTime+i*0.035+0.01);
+    g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+i*0.035+0.25);
+    o.connect(g); g.connect(ctx.destination);
+    o.start(ctx.currentTime+i*0.035);
+    o.stop(ctx.currentTime+i*0.035+0.26);
+  });
+}
+function playWallBounce(){
+  const ctx=getAudioCtx(); if(!ctx) return;
+  const o=ctx.createOscillator(), g=ctx.createGain();
+  o.type='sine';
+  o.frequency.setValueAtTime(150,ctx.currentTime);
+  g.gain.setValueAtTime(0.05,ctx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.06);
+  o.connect(g); g.connect(ctx.destination);
+  o.start(); o.stop(ctx.currentTime+0.06);
+}
+function playLifeLost(){
+  const ctx=getAudioCtx(); if(!ctx) return;
+  const o=ctx.createOscillator(), g=ctx.createGain();
+  o.type='sawtooth';
+  o.frequency.setValueAtTime(300,ctx.currentTime);
+  o.frequency.exponentialRampToValueAtTime(60,ctx.currentTime+0.4);
+  g.gain.setValueAtTime(0.12,ctx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.4);
+  o.connect(g); g.connect(ctx.destination);
+  o.start(); o.stop(ctx.currentTime+0.4);
+}
+function playExplosion(big){
+  const ctx=getAudioCtx(); if(!ctx) return;
+  const bufferSize=ctx.sampleRate*(big?1.2:0.5);
+  const buffer=ctx.createBuffer(1,bufferSize,ctx.sampleRate);
+  const data=buffer.getChannelData(0);
+  for(let i=0;i<bufferSize;i++){
+    data[i]=(Math.random()*2-1)*Math.pow(1-i/bufferSize,2);
+  }
+  const noise=ctx.createBufferSource();
+  noise.buffer=buffer;
+  const filter=ctx.createBiquadFilter();
+  filter.type='lowpass';
+  filter.frequency.setValueAtTime(big?1200:800,ctx.currentTime);
+  filter.frequency.exponentialRampToValueAtTime(60,ctx.currentTime+(big?1.1:0.45));
+  const g=ctx.createGain();
+  g.gain.setValueAtTime(big?0.3:0.18,ctx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+(big?1.2:0.5));
+  noise.connect(filter); filter.connect(g); g.connect(ctx.destination);
+  noise.start();
+}
+function playLevelComplete(){
+  const ctx=getAudioCtx(); if(!ctx) return;
+  [523,659,784,1047].forEach((f,i)=>{
+    const o=ctx.createOscillator(), g=ctx.createGain();
+    o.type='triangle';
+    o.frequency.setValueAtTime(f,ctx.currentTime+i*0.09);
+    g.gain.setValueAtTime(0.001,ctx.currentTime+i*0.09);
+    g.gain.linearRampToValueAtTime(0.12,ctx.currentTime+i*0.09+0.01);
+    g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+i*0.09+0.3);
+    o.connect(g); g.connect(ctx.destination);
+    o.start(ctx.currentTime+i*0.09);
+    o.stop(ctx.currentTime+i*0.09+0.32);
+  });
+}
+function playWhoosh(){
+  const ctx=getAudioCtx(); if(!ctx) return;
+  const o=ctx.createOscillator(), g=ctx.createGain();
+  o.type='sine';
+  o.frequency.setValueAtTime(200,ctx.currentTime);
+  o.frequency.exponentialRampToValueAtTime(900,ctx.currentTime+0.5);
+  g.gain.setValueAtTime(0.001,ctx.currentTime);
+  g.gain.linearRampToValueAtTime(0.08,ctx.currentTime+0.1);
+  g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.5);
+  o.connect(g); g.connect(ctx.destination);
+  o.start(); o.stop(ctx.currentTime+0.5);
+}
+
+// LETTER BLOCK PATTERNS (5x7 grid, 1 = block present)
+const LETTER_D=[
+  [1,1,1,1,0],
+  [1,0,0,1,0],
+  [1,0,0,1,0],
+  [1,0,0,1,0],
+  [1,0,0,1,0],
+  [1,0,0,1,0],
+  [1,1,1,1,0]
+];
+const LETTER_I=[
+  [0,1,0],
+  [0,1,0],
+  [0,1,0],
+  [0,1,0],
+  [0,1,0],
+  [0,1,0],
+  [0,1,0]
+];
+const LETTER_M=[
+  [1,0,0,0,1],
+  [1,1,0,1,1],
+  [1,0,1,0,1],
+  [1,0,0,0,1],
+  [1,0,0,0,1],
+  [1,0,0,0,1],
+  [1,0,0,0,1]
+];
+const LETTER_A=[
+  [0,1,1,0],
+  [1,0,0,1],
+  [1,0,0,1],
+  [1,1,1,1],
+  [1,0,0,1],
+  [1,0,0,1],
+  [1,0,0,1]
+];
+
+function makeLetters(){
+  blocks=[];
+  const bw=16,bh=16,gap=2;
+  const letters=[LETTER_D,LETTER_I,LETTER_M,LETTER_A];
+  let totalCols=0;
+  letters.forEach(l=>{totalCols+=l[0].length+1;});
+  totalCols-=1;
+  const totalW=totalCols*(bw+gap);
+  let startX=(W-totalW)/2;
+  const startY=36;
+  const colors=['#4488FF','#FF6B35','#F5C842','#88CCFF'];
+  letters.forEach((letter,li)=>{
+    const cols=letter[0].length;
+    letter.forEach((row,ri)=>{
+      row.forEach((cell,ci)=>{
+        if(cell===1){
+          blocks.push({x:startX+ci*(bw+gap),y:startY+ri*(bh+gap),w:bw,h:bh,alive:true,color:colors[li]});
+        }
+      });
+    });
+    startX+=(cols+1)*(bw+gap);
+  });
+}
+
+// HEART SHAPE PATTERN
+function makeHeart(){
+  blocks=[];
+  const bw=18,bh=18,gap=2;
+  const pattern=[
+    [0,1,1,0,0,0,1,1,0],
+    [1,1,1,1,0,1,1,1,1],
+    [1,1,1,1,1,1,1,1,1],
+    [1,1,1,1,1,1,1,1,1],
+    [0,1,1,1,1,1,1,1,0],
+    [0,0,1,1,1,1,1,0,0],
+    [0,0,0,1,1,1,0,0,0],
+    [0,0,0,0,1,0,0,0,0]
+  ];
+  const rows=pattern.length, cols=pattern[0].length;
+  const totalW=cols*(bw+gap);
+  const startX=(W-totalW)/2, startY=30;
+  pattern.forEach((row,ri)=>{
+    row.forEach((cell,ci)=>{
+      if(cell===1){
+        const dist=Math.abs(ci-cols/2);
+        const color=dist<1.5?'#FF6B6B':(dist<3?'#FF8C42':'#F5C842');
+        blocks.push({x:startX+ci*(bw+gap),y:startY+ri*(bh+gap),w:bw,h:bh,alive:true,color});
+      }
+    });
+  });
+}
 
 function makePyramid(){
   blocks=[];
@@ -1079,19 +1287,23 @@ function hue(i){
 }
 
 function initLevel(){
-  ball={x:W/2,y:H-60,vx:3+(level-1)*0.4,vy:-(4+(level-1)*0.3),r:10,trail:[]};
-  paddle={x:(W-100)/2,y:H-30,w:100-(level-1)*5,h:10,speed:8};
+  ball={x:W/2,y:H-60,vx:3+(level-1)*0.4,vy:-(4+(level-1)*0.3),r:10,trail:[],baseR:10};
+  paddle={x:(W-100)/2,y:H-30,w:100-(level-1)*4,h:10,speed:8};
   particles=[];
   chaosMode=false;
   chaosTimer=0;
   levelComplete=false;
   coins=[];
   blocks=[];
+  level6Phase='blocks'; // blocks -> grown -> sway1 -> sway2 -> spiral -> dive -> done
+  level6Timer=0;
+  level6HitOnce=false;
   if(level===1) makePyramid();
   else if(level===2) makeCoins();
   else if(level===3) makeStar();
   else if(level===4) makeCross();
-  else if(level===5){ makeCross(); chaosMode=false; }
+  else if(level===5) makeLetters();
+  else if(level===6) makeHeart();
   updateHUD();
   document.getElementById('level-info').textContent=LEVELS[level-1].desc;
 }
@@ -1103,6 +1315,8 @@ function updateHUD(){
 }
 
 function startGame(){
+  getAudioCtx();
+  if(audioCtx && audioCtx.state==='suspended') audioCtx.resume();
   state='playing';
   level=1;lives=3;score=0;gameOver=false;
   document.getElementById('start-btn').textContent='ПАУЗА';
@@ -1162,24 +1376,50 @@ function loop(){
 function update(){
   if(gameOver||levelComplete) return;
 
-  // Chaos mode level 5
-  if(level===5){
-    chaosTimer++;
-    if(chaosTimer>180 && !chaosMode){
-      chaosMode=true;
-      document.getElementById('level-info').textContent='⚠ КОМЕТА ВЫШЛА ИЗ КОНТРОЛЯ...';
+  // LEVEL 6 SPECIAL SEQUENCE
+  if(level===6 && level6HitOnce){
+    level6Timer++;
+    if(level6Phase==='grown'){
+      // brief pause after growing
+      if(level6Timer>20){ level6Phase='sway1'; level6Timer=0; ball.swayCount=0; }
     }
-    if(chaosMode){
-      ball.vx+=(Math.random()-0.5)*0.3;
-      ball.vy+=(Math.random()-0.5)*0.3;
-      // Clamp speed
-      const spd=Math.sqrt(ball.vx*ball.vx+ball.vy*ball.vy);
-      if(spd>12){ball.vx=ball.vx/spd*12;ball.vy=ball.vy/spd*12;}
-      // Eventually fall
-      if(chaosTimer>420){
-        ball.vy=Math.abs(ball.vy)*0.5+2;
-        ball.vx*=0.98;
+    else if(level6Phase==='sway1' || level6Phase==='sway2'){
+      // Fly side to side rapidly, ignore paddle
+      const swaySpeed=8;
+      ball.x+=Math.sin(level6Timer*0.12)*swaySpeed;
+      ball.y+=Math.cos(level6Timer*0.05)*1.5;
+      ball.x=Math.max(ball.r,Math.min(W-ball.r,ball.x));
+      ball.y=Math.max(ball.r,Math.min(H*0.55,ball.y));
+      if(level6Timer>70){
+        level6Timer=0;
+        if(level6Phase==='sway1'){ level6Phase='sway2'; playWhoosh(); }
+        else { level6Phase='spiral'; playWhoosh(); }
       }
+      draw(); return;
+    }
+    else if(level6Phase==='spiral'){
+      // Spiral upward and off screen
+      const t=level6Timer*0.15;
+      const radius=20+level6Timer*1.8;
+      ball.x=W/2+Math.cos(t)*radius*0.4;
+      ball.y=H*0.4-level6Timer*4.5;
+      if(level6Timer>90 || ball.y< -40){
+        level6Phase='dive';
+        level6Timer=0;
+        playWhoosh();
+      }
+      draw(); return;
+    }
+    else if(level6Phase==='dive'){
+      // Sharp dive straight down
+      ball.y+=level6Timer*level6Timer*0.08+6;
+      ball.x+=(W/2-ball.x)*0.02;
+      if(ball.y>H-20){
+        level6Phase='done';
+        triggerFinalExplosion();
+        return;
+      }
+      draw(); return;
     }
   }
 
@@ -1192,9 +1432,9 @@ function update(){
   ball.y+=ball.vy;
 
   // Wall collisions
-  if(ball.x-ball.r<0){ball.x=ball.r;ball.vx=Math.abs(ball.vx);}
-  if(ball.x+ball.r>W){ball.x=W-ball.r;ball.vx=-Math.abs(ball.vx);}
-  if(ball.y-ball.r<0){ball.y=ball.r;ball.vy=Math.abs(ball.vy);}
+  if(ball.x-ball.r<0){ball.x=ball.r;ball.vx=Math.abs(ball.vx);playWallBounce();}
+  if(ball.x+ball.r>W){ball.x=W-ball.r;ball.vx=-Math.abs(ball.vx);playWallBounce();}
+  if(ball.y-ball.r<0){ball.y=ball.r;ball.vy=Math.abs(ball.vy);playWallBounce();}
 
   // Paddle collision
   if(ball.y+ball.r>=paddle.y && ball.y+ball.r<=paddle.y+paddle.h+8 &&
@@ -1207,6 +1447,7 @@ function update(){
     ball.vy=-Math.cos(angle)*spd;
     spawnParticles(ball.x,ball.y,'#88AAFF',5);
     score+=2; updateHUD();
+    playPaddleHit();
   }
 
   // Block collisions
@@ -1217,6 +1458,19 @@ function update(){
       b.alive=false;
       score+=10; updateHUD();
       spawnParticles(b.x+b.w/2,b.y+b.h/2,b.color,8);
+      playBlockHit();
+
+      // LEVEL 6: first hit triggers the special sequence
+      if(level===6 && !level6HitOnce){
+        level6HitOnce=true;
+        level6Phase='grown';
+        level6Timer=0;
+        ball.r=ball.baseR*2.2;
+        spawnParticles(ball.x,ball.y,'#FF6B35',20);
+        document.getElementById('level-info').textContent='⚠ КОМЕТА РАСТЁТ...';
+        playWhoosh();
+      }
+
       // Determine bounce direction
       const overlapL=ball.x+ball.r-b.x;
       const overlapR=b.x+b.w-ball.x+ball.r;
@@ -1237,6 +1491,7 @@ function update(){
       c.alive=false;coinsCaught++;
       score+=15; updateHUD();
       spawnParticles(c.x,c.y,'#F5C842',10);
+      playCoinSound();
     }
   });
 
@@ -1246,38 +1501,33 @@ function update(){
 
   // Check lose
   if(ball.y-ball.r>H){
-    if(level===5 && chaosTimer>420){
-      // Final explosion
-      triggerFinalExplosion();
-      return;
-    }
     lives--;
     updateHUD();
     spawnParticles(ball.x,H,'#FF6B35',20);
+    playLifeLost();
     if(lives<=0){
       triggerGameOver();
     } else {
-      ball={x:W/2,y:H-60,vx:3+(level-1)*0.4,vy:-(4+(level-1)*0.3),r:10,trail:[]};
+      ball={x:W/2,y:H-60,vx:3+(level-1)*0.4,vy:-(4+(level-1)*0.3),r:10,trail:[],baseR:10};
     }
   }
 
   // Check win
-  if(level!==2 && level!==5 && blocks.every(b=>!b.alive)){
+  if(level!==2 && level!==6 && blocks.every(b=>!b.alive)){
     levelComplete=true;
     score+=100;
+    playLevelComplete();
     document.getElementById('level-info').textContent=`✓ Уровень ${level} пройден! +100 очков`;
     setTimeout(()=>{
-      if(level<5){level++;initLevel();}
+      if(level<6){level++;initLevel();}
     },1500);
   }
   if(level===2 && coins.every(c=>!c.alive)){
     levelComplete=true;
     score+=100;
+    playLevelComplete();
     document.getElementById('level-info').textContent=`✓ Все монеты собраны! +100 очков`;
     setTimeout(()=>{level++;initLevel();},1500);
-  }
-  if(level===5 && blocks.length>0 && blocks.every(b=>!b.alive)){
-    // Level 5 blocks done but chaos continues until ball falls
   }
 }
 
@@ -1287,6 +1537,7 @@ function triggerGameOver(){
   explosionFrames=0;
   spawnParticles(ball.x,ball.y,'#FF6B35',40);
   spawnParticles(ball.x,ball.y,'#FFD700',20);
+  playExplosion(false);
   document.getElementById('level-info').textContent='';
   setTimeout(()=>drawEndScreen(false),1500);
 }
@@ -1297,6 +1548,7 @@ function triggerFinalExplosion(){
   spawnParticles(W/2,H,'#FF6B35',60);
   spawnParticles(W/2,H,'#FFD700',40);
   spawnParticles(W/2,H,'#FFFFFF',20);
+  playExplosion(true);
   for(let i=0;i<10;i++){
     setTimeout(()=>{spawnParticles(Math.random()*W,H-Math.random()*100,'#FF6B35',15);},i*80);
   }
@@ -1424,9 +1676,10 @@ function draw(){
   ctx.beginPath();ctx.arc(ball.x,ball.y,ball.r,0,Math.PI*2);ctx.fill();
 
   // Comet glow
-  ctx.shadowBlur=chaosMode?30:15;
-  ctx.shadowColor=chaosMode?'#FF6B35':'#88AAFF';
-  ctx.fillStyle=chaosMode?'rgba(255,107,53,0.3)':'rgba(136,170,255,0.3)';
+  const isSpecial=level===6 && level6HitOnce;
+  ctx.shadowBlur=isSpecial?30:15;
+  ctx.shadowColor=isSpecial?'#FF6B35':'#88AAFF';
+  ctx.fillStyle=isSpecial?'rgba(255,107,53,0.3)':'rgba(136,170,255,0.3)';
   ctx.beginPath();ctx.arc(ball.x,ball.y,ball.r+4,0,Math.PI*2);ctx.fill();
   ctx.shadowBlur=0;
 
@@ -1440,8 +1693,8 @@ function draw(){
   ctx.fill();
 
   // HUD level text
-  if(level===5 && chaosMode){
-    ctx.fillStyle='rgba(255,107,53,0.15)';
+  if(level===6 && level6HitOnce){
+    ctx.fillStyle='rgba(255,107,53,0.1)';
     ctx.fillRect(0,0,W,H);
   }
 }
@@ -1466,7 +1719,7 @@ function drawIdle(){
   ctx.fillText('Не дай комете упасть',W/2,H/2+30);
   ctx.fillStyle='#6B7499';
   ctx.font='12px Space Mono, monospace';
-  ctx.fillText('5 уровней · управление мышью или пальцем',W/2,H/2+58);
+  ctx.fillText('6 уровней · управление мышью или пальцем',W/2,H/2+58);
 }
 
 drawIdle();
